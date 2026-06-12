@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# set -e
+
+
+
+function do_repush() {
+    git checkout --orphan latest_branch
+    git add -A
+    git commit -am "hello world"
+    git branch -D main
+    git branch -m main
+    git push -f origin main
+
+}
+
+
+function strip() {
+  echo "$1" | tr -d '"'
+}
+
+for arg in "$@"
+do
+    case $arg in
+        repush)
+        do_repush
+        shift
+        ;;
+        *)
+        echo "cmd not found: try 'repush'"
+        shift
+        ;;
+    esac
+done
